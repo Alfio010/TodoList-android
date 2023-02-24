@@ -16,7 +16,7 @@ class MyNotification : BroadcastReceiver() {
         val title = intent.getStringExtra("titleExtra").toString()
         val notification =
             NotificationCompat.Builder(context, channelID)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(message).setContentTitle(title).build()
         val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(1212, notification)

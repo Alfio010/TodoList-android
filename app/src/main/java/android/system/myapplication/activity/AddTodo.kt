@@ -144,7 +144,7 @@ class AddTodo : AppCompatActivity() {
                     Locale.getDefault()
                 )
 
-                // TODO: add request perm notification | work in progress
+                // TODO: add request perm notification | work in progress (scheduled notification not working)
 
                 ScheduleNotification.createNotificationChannel(this)
 

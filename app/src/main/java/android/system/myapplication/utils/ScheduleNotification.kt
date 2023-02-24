@@ -34,8 +34,8 @@ object ScheduleNotification {
     }
 
     fun createNotificationChannel(context: Context) {
-        val name = "Daily Alerts"
-        val des = "Channel Description A Brief"
+        val name = "test"
+        val des = "description"
         val importance = NotificationManager.IMPORTANCE_DEFAULT // TODO: change priority
         val channel = NotificationChannel(channelID, name, importance)
         channel.description = des

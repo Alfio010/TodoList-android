@@ -15,7 +15,7 @@ import com.google.android.material.button.MaterialButton
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: CustomAdapter
 
-    lateinit var list: ListView
+    private lateinit var list: ListView
     var on = false
 
     private fun refreshList() {
