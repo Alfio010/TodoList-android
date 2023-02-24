@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activity.AddTodo">
+    tools:context=".addTodo">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -28,23 +28,17 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/name"
-                android:importantForAutofill="no"
+                android:hint="Nome"
                 android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:textAlignment="center"
-                android:textColorHint="#757575" />
+                android:textAlignment="center" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
+            <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/normal"
-                android:minHeight="48dp"
-                tools:ignore="TouchTargetSizeCheck" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <EditText
@@ -54,72 +48,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:ems="10"
-            android:hint="@string/description"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:textColorHint="#757575" />
+            android:hint="Descrizione"
+            android:inputType="textPersonName" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/date"
-                android:importantForAutofill="no"
-                android:inputType="date"
-                android:minHeight="48dp"
-                android:textColorHint="#757575" />
-
-            <EditText
-                android:id="@+id/etTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/time"
-                android:importantForAutofill="no"
-                android:inputType="time"
-                android:minHeight="48dp"
-                android:textColorHint="#757575" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/bResetEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/delete"
-                android:scaleX="0.85"
-                android:scaleY="0.85"
-                app:srcCompat="@android:drawable/ic_delete"
-                tools:ignore="KeyboardInaccessibleWidget" />
-
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/bAddd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:text="@string/add" />
+            android:text="Aggiungi" />
 
     </LinearLayout>
-
 
 </LinearLayout>

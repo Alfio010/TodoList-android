@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rowcustom"
     android:layout_width="match_parent"
+    android:id="@+id/rowcustom"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,25 +15,25 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview" />
+                android:text="TextView" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/tvNome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview"
+                android:text="TextView"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/tvDescrizione"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview"
+                android:text="TextView"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <Switch
                 android:id="@+id/swToDo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

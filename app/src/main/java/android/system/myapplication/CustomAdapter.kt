@@ -1,54 +1,61 @@
 package android.system.myapplication
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.graphics.Color
 import android.system.myapplication.models.Todo
-import android.system.myapplication.utils.DateUtils
+import android.system.myapplication.utils.BackendClient.deleteTodo
+import android.system.myapplication.utils.BackendClient.updateTodo
+import android.system.myapplication.utils.dateFormatter
+import android.system.myapplication.utils.findByID
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Switch
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textview.MaterialTextView
 import io.objectbox.Box
+import org.json.JSONObject
 import java.util.*
 
+
 class CustomAdapter
-    (context: Context, idRowCustom: Int, list: List<Todo?>, var refreshCallback: () -> Unit) :
+    (context: Context, idRowCustom: Int, list: List<Todo?>, refreshCallback: () -> Unit) :
     ArrayAdapter<Todo?>(context, idRowCustom, list) {
-    var todoItem: Todo? = null
+    var g: Todo? = null
     var todos: Box<Todo> = Database.getDatabase(context).boxFor(Todo::class.java)
 
     var contextt: Context = context
+    var refreshCallback: () -> Unit = refreshCallback
 
-    @SuppressLint("ViewHolder", "SetTextI18n", "InflateParams")
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val convertView2: View?
+        var convertView = convertView
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        convertView2 = inflater.inflate(R.layout.rowcustom, null)
+        convertView = inflater.inflate(R.layout.rowcustom, null)
 
-        val tvNome = convertView2.findViewById<View>(R.id.tvNome) as MaterialTextView
-        val tvDescription = convertView2.findViewById<View>(R.id.tvDescrizione) as MaterialTextView
-        val tvDate = convertView2.findViewById<View>(R.id.tvDate) as MaterialTextView
-        val swTodo = convertView2.findViewById<View>(R.id.swToDo) as SwitchMaterial
+        val tvNome = convertView!!.findViewById<View>(R.id.tvNome) as TextView
+        val tvDescrizione = convertView.findViewById<View>(R.id.tvDescrizione) as TextView
+        val tvDate = convertView.findViewById<View>(R.id.tvDate) as TextView
+        val swTodo = convertView.findViewById<View>(R.id.swToDo) as Switch
 
-        todoItem = getItem(position)
-        val name = todoItem?.name
-        var description = todoItem?.description
+
+        g = getItem(position)
+        val name = g?.name
+        var description = g?.description
 
         tvNome.text = name
 
-        when (todoItem?.priority) {
-            1 -> tvNome.setTextColor(ContextCompat.getColor(context, R.color.medium))
-            2 -> tvNome.setTextColor(ContextCompat.getColor(context, R.color.standard))
-            3 -> tvNome.setTextColor(ContextCompat.getColor(context, R.color.high))
+        when (g?.priority) {
+            1 -> tvNome.setTextColor(Color.parseColor("#FFD700"))
+            2 -> tvNome.setTextColor(Color.parseColor("#5E5B63"))
+            3 -> tvNome.setTextColor(Color.parseColor("#FF0000"))
         }
 
-        if (todoItem?.done == 1) {
+        if (g?.done == 1) {
             swTodo.isChecked = true
         }
 
@@ -57,27 +64,27 @@ class CustomAdapter
                 description = description.subSequence(0, 27).toString() + "..."
             }
         }
-        tvDescription.text = description
+        tvDescrizione.text = description
 
-        if (todoItem?.date_add != null) {
+        if (g?.date_add != null) {
 
-            val formattedDateAdd = todoItem?.date_add?.let { DateUtils.dateFormatter(it) }
-
-            if (todoItem?.date_done != null) {
-                val formattedDateDone = todoItem?.date_done?.let { DateUtils.dateFormatter(it) }
-                tvDate.text = "$formattedDateAdd - $formattedDateDone"
+            if (g?.date_done != null) {
+                tvDate.text = dateFormatter(g?.date_add!!) + " - " + dateFormatter(g?.date_done!!)
             } else {
-                tvDate.text = formattedDateAdd
+                tvDate.text = dateFormatter(g?.date_add!!)
             }
 
         } else {
             tvDate.visibility = View.GONE
         }
 
-        swTodo.setOnClickListener {
-            todoItem = getItem(position)
 
-            val todo: Todo = todos.get(todoItem?.todoId!!)
+
+        swTodo.setOnClickListener {
+            g = getItem(position)
+            var id = g?.todoId!!
+
+            val todo: Todo = todos.get(id)
             val nowIsDone = swTodo.isChecked
             val oldIsDone = todo.done == 1
 
@@ -89,39 +96,82 @@ class CustomAdapter
                 todo.date_done = Date()
             }
 
-            todo.done = if (nowIsDone) {
-                1
-            } else {
-                0
-            }
+            todo.done = if (nowIsDone) { 1 } else { 0 }
 
             todos.put(todo)
             refreshCallback.invoke()
+
+            val query = findByID(id)
+
+            val bodyElement = JSONObject()
+            bodyElement.put("todoId", query[0].todoId)
+            bodyElement.put("done", query[0].done)
+            bodyElement.put("date_done", query[0].date_done)
+
+            updateTodo(bodyElement)
+
         }
 
-        fun tvOnListener(textView: TextView) {
-            textView.setOnClickListener {
-                todoItem = getItem(position)
+        tvNome.setOnClickListener {
+            g = getItem(position)
 
-                val builder = MaterialAlertDialogBuilder(contextt)
-                builder.setTitle(todoItem?.name)
-                builder.setMessage(todoItem?.description)
-                    .setPositiveButton(context.getString(R.string.delete)) { _, _ ->
-                        val gID = todoItem?.todoId
-                        val todo: Todo = todos.get(gID!!)
+            val builder = AlertDialog.Builder(contextt)
+            builder.setTitle(g?.name)
+            builder.setMessage(g?.description)
+                .setPositiveButton("Elimina",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        var gID = g?.todoId
+                        var todo: Todo = todos.get(gID!!)
+
+                        val query = findByID(gID)
+
+                        val bodyElement = JSONObject()
+                        bodyElement.put("todoId", query[0].todoId)
+
+                        deleteTodo(bodyElement)
+
                         todos.remove(todo)
                         refreshCallback.invoke()
-                    }
-                    .setNeutralButton(context.getString(R.string.back)) { _, _ -> }
 
-                builder.create()
-                builder.show()
-            }
+                    })
+                .setNeutralButton("Indietro",
+                    DialogInterface.OnClickListener { dialog, id ->
+                    })
+
+            builder.create()
+            builder.show()
         }
 
-        tvOnListener(tvNome)
-        tvOnListener(tvDescription)
+        tvDescrizione.setOnClickListener {
+            g = getItem(position)
 
-        return convertView2
+            val builder = AlertDialog.Builder(contextt)
+            builder.setTitle(g?.name)
+            builder.setMessage(g?.description)
+                .setPositiveButton("Elimina",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        var gID = g?.todoId
+                        var todo: Todo = todos.get(gID!!)
+
+                        val query = findByID(gID)
+
+                        val bodyElement = JSONObject()
+                        bodyElement.put("todoId", query[0].todoId)
+
+                        deleteTodo(bodyElement)
+
+                        todos.remove(todo)
+                        refreshCallback.invoke()
+
+                    })
+                .setNeutralButton("Indietro",
+                    DialogInterface.OnClickListener { dialog, id ->
+                    })
+
+            builder.create()
+            builder.show()
+        }
+
+        return convertView
     }
 }
