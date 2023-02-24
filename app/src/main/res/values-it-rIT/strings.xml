@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete">Elimina</string>
+    <string name="back">Indietro</string>
+    <string name="low">Bassa</string>
+    <string name="normal">Normale</string>
+    <string name="high">Alta</string>
+    <string name="enter_name">Inserire il nome</string>
+    <string name="name">Nome</string>
+    <string name="description">Descrizione</string>
+    <string name="add">Aggiungi</string>
+    <string name="update">Aggiorna</string>
+    <string name="settings">Impostazioni</string>
+    <string name="delete_all">Cancella tutto</string>
+    <string name="date">Data</string>
+    <string name="time">Orario</string>
+    <string name="fill_date_time">Controlla la data o l\'orario</string>
+</resources>
