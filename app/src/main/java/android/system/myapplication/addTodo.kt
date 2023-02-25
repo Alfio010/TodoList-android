@@ -40,7 +40,7 @@ class addTodo : AppCompatActivity() {
 
             val input = etName.text.toString().trim()
 
-            if (input.isNullOrBlank()) {
+            if (input.isBlank()) {
                 Toast.makeText(this, "Inserire il nome", Toast.LENGTH_SHORT).show()
             } else {
 

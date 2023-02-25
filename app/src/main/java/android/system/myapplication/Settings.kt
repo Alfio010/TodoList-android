@@ -23,7 +23,7 @@ class Settings : AppCompatActivity() {
         val bSincroDa = findViewById<Button>(R.id.bSincroDa)
 
         bDeleteDB.setOnClickListener {
-            var todos = Database.getDatabase(baseContext).boxFor(Todo::class.java)
+            val todos = Database.getDatabase(baseContext).boxFor(Todo::class.java)
             todos.removeAll()
         }
 
@@ -36,7 +36,7 @@ class Settings : AppCompatActivity() {
             val body = todosArray(Application.todos.all)
 
             for (i in 0 until body.length()) {
-                var todoJson = body.getJSONObject(i)
+                val todoJson = body.getJSONObject(i)
 
                 sendTodo(todoJson)
             }

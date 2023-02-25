@@ -30,9 +30,9 @@ class CustomAdapter
     var contextt: Context = context
     var refreshCallback: () -> Unit = refreshCallback
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        val convertView: View?
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         convertView = inflater.inflate(R.layout.rowcustom, null)
@@ -82,7 +82,7 @@ class CustomAdapter
 
         swTodo.setOnClickListener {
             g = getItem(position)
-            var id = g?.todoId!!
+            val id = g?.todoId!!
 
             val todo: Todo = todos.get(id)
             val nowIsDone = swTodo.isChecked
@@ -96,7 +96,11 @@ class CustomAdapter
                 todo.date_done = Date()
             }
 
-            todo.done = if (nowIsDone) { 1 } else { 0 }
+            todo.done = if (nowIsDone) {
+                1
+            } else {
+                0
+            }
 
             todos.put(todo)
             refreshCallback.invoke()
@@ -118,25 +122,25 @@ class CustomAdapter
             val builder = AlertDialog.Builder(contextt)
             builder.setTitle(g?.name)
             builder.setMessage(g?.description)
-                .setPositiveButton("Elimina",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        var gID = g?.todoId
-                        var todo: Todo = todos.get(gID!!)
+                .setPositiveButton("Elimina"
+                ) { _, _ ->
+                    val gID = g?.todoId
+                    val todo: Todo = todos.get(gID!!)
 
-                        val query = findByID(gID)
+                    val query = findByID(gID)
 
-                        val bodyElement = JSONObject()
-                        bodyElement.put("todoId", query[0].todoId)
+                    val bodyElement = JSONObject()
+                    bodyElement.put("todoId", query[0].todoId)
 
-                        deleteTodo(bodyElement)
+                    deleteTodo(bodyElement)
 
-                        todos.remove(todo)
-                        refreshCallback.invoke()
+                    todos.remove(todo)
+                    refreshCallback.invoke()
 
-                    })
-                .setNeutralButton("Indietro",
-                    DialogInterface.OnClickListener { dialog, id ->
-                    })
+                }
+                .setNeutralButton("Indietro"
+                ) { _, _ ->
+                }
 
             builder.create()
             builder.show()
@@ -148,25 +152,25 @@ class CustomAdapter
             val builder = AlertDialog.Builder(contextt)
             builder.setTitle(g?.name)
             builder.setMessage(g?.description)
-                .setPositiveButton("Elimina",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        var gID = g?.todoId
-                        var todo: Todo = todos.get(gID!!)
+                .setPositiveButton("Elimina"
+                ) { dialog, id ->
+                    val gID = g?.todoId
+                    val todo: Todo = todos.get(gID!!)
 
-                        val query = findByID(gID)
+                    val query = findByID(gID)
 
-                        val bodyElement = JSONObject()
-                        bodyElement.put("todoId", query[0].todoId)
+                    val bodyElement = JSONObject()
+                    bodyElement.put("todoId", query[0].todoId)
 
-                        deleteTodo(bodyElement)
+                    deleteTodo(bodyElement)
 
-                        todos.remove(todo)
-                        refreshCallback.invoke()
+                    todos.remove(todo)
+                    refreshCallback.invoke()
 
-                    })
-                .setNeutralButton("Indietro",
-                    DialogInterface.OnClickListener { dialog, id ->
-                    })
+                }
+                .setNeutralButton("Indietro"
+                ) { _, _ ->
+                }
 
             builder.create()
             builder.show()

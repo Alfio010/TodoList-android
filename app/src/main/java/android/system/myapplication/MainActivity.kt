@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var adapter: CustomAdapter
+    private lateinit var adapter: CustomAdapter
     lateinit var list: ListView
 
 
     private fun refreshList() {
 
-       val todo = sortedList()
+        val todo = sortedList()
 
         adapter = CustomAdapter(this@MainActivity, R.layout.rowcustom, todo, ::refreshList)
         list.adapter = adapter
@@ -34,14 +34,14 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
 
-        list = findViewById<ListView>(R.id.list1)
+        list = findViewById(R.id.list1)
 
         val bAddTodo = findViewById<Button>(R.id.bAddTodo)
         val bSettings = findViewById<Button>(R.id.bSettings)
 
         refreshList()
 
-        list.setOnItemClickListener { parent, view, position, id ->
+        list.setOnItemClickListener { parent, _, position, _ ->
             val g = parent.getItemAtPosition(position)
             Toast.makeText(this, g.toString(), Toast.LENGTH_SHORT).show()
         }

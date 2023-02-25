@@ -45,9 +45,9 @@ object BackendClient {
     fun updateTodo(objTodo: JSONObject) {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, updateTodoEndpoint, objTodo,
-            { response ->
+            { _ ->
             },
-            { error ->
+            { _ ->
             }
         )
 
@@ -57,9 +57,9 @@ object BackendClient {
     fun deleteTodo(objTodo: JSONObject) {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, deleteTodoEndpoint, objTodo,
-            { response ->
+            { _ ->
             },
-            { error ->
+            { _ ->
             }
         )
 
@@ -68,9 +68,9 @@ object BackendClient {
 
     fun sendTodo(objTodo: JSONObject) {
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, sendTodoEndpoint, objTodo,
-            { response ->
+            { _ ->
             },
-            { error ->
+            { _ ->
             }
         )
 
