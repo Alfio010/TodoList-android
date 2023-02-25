@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: CustomAdapter
 
     private lateinit var list: ListView
-    var on = false
+    private var on = false
 
     private fun refreshList() {
         val todo = Application.todos
