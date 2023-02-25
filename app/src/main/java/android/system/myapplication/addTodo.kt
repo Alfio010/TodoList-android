@@ -86,7 +86,5 @@ class addTodo : AppCompatActivity() {
 
             }
         }
-
-
     }
 }

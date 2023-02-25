@@ -3,7 +3,6 @@ package android.system.myapplication
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.system.myapplication.models.Todo
 import android.system.myapplication.utils.BackendClient.deleteTodo
@@ -42,7 +41,6 @@ class CustomAdapter
         val tvDate = convertView.findViewById<View>(R.id.tvDate) as TextView
         val swTodo = convertView.findViewById<View>(R.id.swToDo) as Switch
 
-
         g = getItem(position)
         val name = g?.name
         var description = g?.description
@@ -77,8 +75,6 @@ class CustomAdapter
         } else {
             tvDate.visibility = View.GONE
         }
-
-
 
         swTodo.setOnClickListener {
             g = getItem(position)
@@ -122,7 +118,8 @@ class CustomAdapter
             val builder = AlertDialog.Builder(contextt)
             builder.setTitle(g?.name)
             builder.setMessage(g?.description)
-                .setPositiveButton("Elimina"
+                .setPositiveButton(
+                    "Elimina"
                 ) { _, _ ->
                     val gID = g?.todoId
                     val todo: Todo = todos.get(gID!!)
@@ -138,7 +135,8 @@ class CustomAdapter
                     refreshCallback.invoke()
 
                 }
-                .setNeutralButton("Indietro"
+                .setNeutralButton(
+                    "Indietro"
                 ) { _, _ ->
                 }
 
@@ -152,8 +150,9 @@ class CustomAdapter
             val builder = AlertDialog.Builder(contextt)
             builder.setTitle(g?.name)
             builder.setMessage(g?.description)
-                .setPositiveButton("Elimina"
-                ) { dialog, id ->
+                .setPositiveButton(
+                    "Elimina"
+                ) { _, _ ->
                     val gID = g?.todoId
                     val todo: Todo = todos.get(gID!!)
 
@@ -168,7 +167,8 @@ class CustomAdapter
                     refreshCallback.invoke()
 
                 }
-                .setNeutralButton("Indietro"
+                .setNeutralButton(
+                    "Indietro"
                 ) { _, _ ->
                 }
 
