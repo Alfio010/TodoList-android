@@ -8,7 +8,7 @@ import android.content.Intent
 import android.system.myapplication.R
 import androidx.core.app.NotificationCompat
 
-const val channelID = "MY_TODO_NOT"
+const val channelID = "TODOLIST_NOTIFICATION"
 
 class MyNotification : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

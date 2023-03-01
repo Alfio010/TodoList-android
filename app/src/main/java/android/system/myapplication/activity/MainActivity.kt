@@ -7,8 +7,8 @@ import android.system.myapplication.CustomAdapter
 import android.system.myapplication.R
 import android.system.myapplication.models.Todo_.date_add
 import android.system.myapplication.models.Todo_.done
+import android.system.myapplication.utils.SomeUtils
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         list.setOnItemClickListener { parent, _, position, _ ->
             val todoItem = parent.getItemAtPosition(position)
-            Toast.makeText(this, todoItem.toString(), Toast.LENGTH_SHORT).show()
+            SomeUtils.showToast(todoItem.toString(), this)
         }
 
         bAddTodo.setOnClickListener {

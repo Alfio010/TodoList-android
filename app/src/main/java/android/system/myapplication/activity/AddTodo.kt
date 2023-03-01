@@ -9,13 +9,13 @@ import android.os.Bundle
 import android.system.myapplication.Database
 import android.system.myapplication.R
 import android.system.myapplication.models.Todo
+import android.system.myapplication.utils.DateUtils.formatCalendar
 import android.system.myapplication.utils.ScheduleNotification
 import android.system.myapplication.utils.SomeUtils
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -46,12 +46,7 @@ class AddTodo : AppCompatActivity() {
 
         val date =
             OnDateSetListener { _, year, month, day ->
-                myCalendar.set(Calendar.YEAR, year)
-                myCalendar.set(Calendar.MONTH, month)
-                myCalendar.set(Calendar.DAY_OF_MONTH, day)
-                val myFormat = "dd/M/yyyy"
-                val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
-                etDate.setText(dateFormat.format(myCalendar.time))
+                etDate.setText(formatCalendar(myCalendar, year, month, day))
             }
 
         etDate.setOnClickListener {
@@ -112,16 +107,16 @@ class AddTodo : AppCompatActivity() {
             val input = etName.text.toString().trim()
 
             if (input.isBlank()) {
-                Toast.makeText(this, getString(R.string.enter_name), Toast.LENGTH_SHORT).show()
+                SomeUtils.showToast(getString(R.string.enter_name), this)
             } else {
 
-                val text = spinner.selectedItem.toString()
-
-                var priority = 0
-                when (text) {
-                    getString(R.string.low) -> priority = 1
-                    getString(R.string.normal) -> priority = 2
-                    getString(R.string.high) -> priority = 3
+                val priority = when (spinner.selectedItem.toString()) {
+                    getString(R.string.low) -> 1
+                    getString(R.string.normal) -> 2
+                    getString(R.string.high) -> 3
+                    else -> {
+                        0
+                    }
                 }
 
                 val currentDate = Date()
